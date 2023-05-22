@@ -5,16 +5,18 @@ import javax.swing.JOptionPane;
 public class Principal extends Pessoa {
 
 	public static void main(String[] args) {
-		
+		int quantidadePessoas = Integer.parseInt(JOptionPane.showInputDialog("Quantas pessoas deseja cadastrar?"));
+		for (int i = 1; i <= quantidadePessoas; i++) {
 		Pessoa pessoa1 = new Pessoa();
-		pessoa1.nome = JOptionPane.showInputDialog("Digite o nome:");
-		pessoa1.sexo = JOptionPane.showInputDialog("Digite o sexo:");
-		pessoa1.peso = Double.parseDouble(JOptionPane.showInputDialog("Digite o peso:"));
-		pessoa1.altura = Double.parseDouble(JOptionPane.showInputDialog("Digite a altura:"));
+		pessoa1.nome = JOptionPane.showInputDialog("Digite o nome da pessoa "+ i + ":");
+		pessoa1.sexo = JOptionPane.showInputDialog("Digite o sexo da pessoa "+ i + ":");
+		pessoa1.peso = Double.parseDouble(JOptionPane.showInputDialog("Digite o peso da pessoa " + i + ":"));
+		pessoa1.altura = Double.parseDouble(JOptionPane.showInputDialog("Digite a altura da pessoa "+ i + ":"));
 		double resultadoIMC = calculaIMC(peso, altura);
 		String avaliacaoIMC = imcSexo(calculaIMC(peso, altura), sexo);
 		System.out.printf("Nome:" + pessoa1.nome + "\nSexo: " + pessoa1.sexo + "\nPeso: " + pessoa1.peso + "\nAltura: "
 				+ pessoa1.altura + "\nIMC: " + resultadoIMC + "\nAvaliação do IMC: " + avaliacaoIMC);
+		}
 
 	}
 
@@ -25,7 +27,7 @@ public class Principal extends Pessoa {
 	}
 
 	public static String imcSexo(double IMC, String sexo) {
-		if (sexo == "feminino") {
+		if (sexo == "femenino") {
 			if (IMC < 19.1) {
 				return "Abaixo do normal";
 			} else if (IMC >= 19.1 && IMC <= 25.8) {
