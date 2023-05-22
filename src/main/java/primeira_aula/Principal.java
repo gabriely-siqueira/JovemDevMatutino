@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class Principal extends Pessoa {
 
 	public static void main(String[] args) {
-		int quantidadePessoas = Integer.parseInt(JOptionPane.showInputDialog("Quantas pessoas deseja cadastrar?"));
+		int quantidadePessoas = Integer.parseInt(JOptionPane.showInputDialog("Quantas pessoas deseja calcular o IMC?"));
 		for (int i = 1; i <= quantidadePessoas; i++) {
 		Pessoa pessoa1 = new Pessoa();
 		pessoa1.nome = JOptionPane.showInputDialog("Digite o nome da pessoa "+ i + ":");
