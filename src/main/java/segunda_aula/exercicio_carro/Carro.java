@@ -16,6 +16,7 @@ public class Carro {
 	}
 
 	public String getMarca() {
+
 		return marca;
 	}
 
@@ -26,12 +27,7 @@ public class Carro {
 	public Cor getCor() {
 		return cor;
 	}
-	 @Override
-	    public String toString() {
-	        return "Marca: " + marca + ", Ano: " + ano + ", Cor: " + cor;
-	    }
-
-	private static void cadastrarCarro(ArrayList<Carro> carros) {
+	public static void cadastrarCarro(ArrayList<Carro> carros) {
 		String marca = JOptionPane.showInputDialog("Digite a marca do carro:");
 		String anoStr = JOptionPane.showInputDialog("Digite o ano do carro:");
 		int ano = Integer.parseInt(anoStr);
@@ -44,11 +40,19 @@ public class Carro {
 				JOptionPane.QUESTION_MESSAGE, null, coresStr, coresStr[0]);
 
 		Cor cor = Cor.valueOf(corSelecionada);
-
 		Carro carro = new Carro(marca, ano, cor);
 		carros.add(carro);
 		JOptionPane.showMessageDialog(null, "Carro cadastrado com sucesso!");
-	}
-	
 
+	}
+
+	@Override
+	public String toString() {
+		return "Marca: " + marca + ", Ano: " + ano + ", Cor: " + cor;
+	}
+
+	public boolean validar(String marca, int ano, Cor cor) {
+
+		return !marca.isEmpty() && ano > 0 && cor != null;
+	}
 }
