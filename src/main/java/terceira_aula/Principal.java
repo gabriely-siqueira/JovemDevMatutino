@@ -12,7 +12,7 @@ import lombok.Setter;
 
 public class Principal {
 	public static void main(String[] args) {
-		// Cadastro de times
+
 		int numTimes = Integer.parseInt(JOptionPane.showInputDialog("Quantos times deseja cadastrar?"));
 
 		Time[] times = new Time[numTimes];
@@ -39,7 +39,6 @@ public class Principal {
 			times[i] = time;
 		}
 
-		// Listar jogadores de um time
 		int timeSelecionado = Integer.parseInt(
 				JOptionPane.showInputDialog("Selecione o time (1-" + numTimes + ") para listar os jogadores:"));
 		Time timeEscolhido = times[timeSelecionado - 1];
