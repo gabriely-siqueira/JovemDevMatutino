@@ -1,23 +1,38 @@
 package exercicio_medicamento;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class Medicamento {
-    private Integer id;
-    @NonNull 
-    private String nome;
-    @NonNull
-    private EnumAdm administracao;
-    @NonNull
-    private List<String> alergias;
-    @NonNull
-    private List<String> indicacoes;
+	
+	@NonNull
+	private String nome;
+	@NonNull
+	private EnumAdm administracao;
+	private List<String> contraIndicacoes = new ArrayList<String>();
+	private List<String> indicacoes = new ArrayList<String>();
+	
+	public boolean isIndicado(String sintoma) {
+		return indicacoes.contains(sintoma);
+	}
+	
+	public boolean isContraIndicado(List<String> condicaoSaude) {
+		return condicaoSaude.stream()
+				.anyMatch(contraIndicacoes :: contains);
+	}
+	
+	public void addIndicacao(String indicacao) {
+		indicacoes.add(indicacao);
+	}
+	
+	public void addContraIndicacao(String contraIndicacao) {
+		contraIndicacoes.add(contraIndicacao);
+	}
+
 }
