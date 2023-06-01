@@ -1,32 +1,55 @@
 package exercicio_banco;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Caixa {
     private Conta conta;
+    private Conta contaDestino;
     private Double valor;
-    private EnumOperacao operacao;
 
-    public Caixa(Conta conta, Double valor, EnumOperacao operacao) {
+    private List<Conta> contas = new ArrayList<>();
+
+    public Caixa(Conta conta, Conta contaDestino, Double valor) {
         this.conta = conta;
+        this.contaDestino = contaDestino;
         this.valor = valor;
-        this.operacao = operacao;
     }
 
-    public void executarOperacao() {
-        if (operacao == EnumOperacao.DEPOSITO) {
-            conta.deposito(valor);
-        } else if (operacao == EnumOperacao.SAQUE) {
-            conta.saque(valor);
-        } else if (operacao == EnumOperacao.TRANSFERENCIA) {
-            
-        	Conta destino = conta ;
+    public Caixa() {
+		
+	}
 
-        	if (conta instanceof Universitaria) {
-        	    Universitaria universitaria = (Universitaria) conta;
-        	    if (universitaria.getSaldo() >= valor && valor <= universitaria.getLimite()) {
-        	        universitaria.transferencia(destino, valor);
-        	    }
-        	} else {
-        	    conta.transferencia(destino, valor);
-        	}
+	public void addContaEspecial(Especial conta) {
+        contas.add(conta);
     }
-}}
+
+    public void addContaUniversitaria(Universitaria conta) {
+        contas.add(conta);
+    }
+
+    public void addConta(Conta c) {
+        contas.add(c);
+    }
+
+    public boolean deposito(double valor, Conta c) {
+        return c.deposito(valor);
+    }
+
+    public boolean saque(double valor, Conta c) {
+        return c.saque(valor);
+    }
+
+    public boolean transferencia(double valor, Conta origem, Conta destino) {
+        return origem.transferencia(valor, destino);
+    }
+
+    public void clearData() {
+        contas.clear();
+    }
+}

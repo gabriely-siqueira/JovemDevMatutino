@@ -1,5 +1,8 @@
 package exercicio_banco;
 
+import lombok.Getter;
+
+@Getter
 public class Especial extends Conta {
     private Double limite;
 
@@ -9,19 +12,13 @@ public class Especial extends Conta {
     }
 
     @Override
-    public Double saque(double valor) {
-        if (saldo + limite >= valor) {
-            saldo -= valor;
-        }
-        return saldo;
-    }
+	public boolean saque(double vl) {
+		if(getSaldo() + getLimite() >= vl) {
+			saldo = getSaldo() - vl;
+			return true;
+		}
+		return false;
+	}
 
-    @Override
-    public Double transferencia(Conta destino, double valor) {
-        if (saldo + limite >= valor) {
-            saldo -= valor;
-            destino.deposito(valor);
-        }
-        return saldo;
-    }
+    
 }
