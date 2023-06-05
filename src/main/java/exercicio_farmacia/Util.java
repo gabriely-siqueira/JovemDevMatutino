@@ -3,42 +3,32 @@ package exercicio_farmacia;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+
+@Getter
 public class Util {
-    private  List<Produto> produtos = new ArrayList<>();
-    private  List<Cliente> clientes = new ArrayList<>();
+	
+	private List<Venda> vendas = new ArrayList<Venda>();
+	
+	public void venda(Cliente cliente, Produto produto, int quantidade, String medico) {
+		Venda venda = new Venda(cliente, produto, quantidade, medico);
+		if(produto.venda(venda)) {
+			vendas.add(venda);
+		}
+	}
+	
+	public List<Venda> vendasPorCliente(Cliente cliente){
+	List<Venda> vendasEncontradas = new ArrayList<>();
+		for (Venda venda : vendas) {
+			if(venda.isCliente(cliente)) {
+				vendasEncontradas.add(venda);
+			}
+		}
+		return vendasEncontradas;
+		
+		
+	}
+	
+	
 
-    public void addCliente(Cliente cliente) {
-        clientes.add(cliente);
-    }
-
-    public  void addProduto(Produto produto) {
-        produtos.add(produto);
-    }
-
-    public  List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public List<Cliente> getClientes() {
-        return clientes;
-    }
-
-    public boolean realizarVenda(Cliente cliente, Produto produto, Integer quantidade, String nomeMedico) {
-        if (!clientes.contains(cliente) || !produtos.contains(produto)) {
-            return false;
-        }
-
-        if (produto instanceof Medicamento) {
-            Medicamento medicamento = (Medicamento) produto;
-            if (medicamento.isRetencaoReceita() && nomeMedico == null) {
-                return false;
-            }
-        }
-
-        if (!produto.venda(cliente, quantidade)) {
-            return false;
-        }
-
-        return true;
-    }
 }

@@ -1,17 +1,20 @@
 package exercicio_farmacia;
 
-public class Perfumaria extends Produto {
-    public Perfumaria(String nome, Integer estoque, Double valor) {
-        super(nome, estoque, valor);
-    }
+import lombok.Getter;
 
-    @Override
-    public boolean venda(Cliente cliente, Integer quantidade) {
-        if (cliente.getSaldoDevedor() < 300 && estoque > 0) {
-            estoque = estoque - quantidade;
-            cliente.setSaldoDevedor(cliente.getSaldoDevedor() + valor * quantidade);
-            return true;
-        }
-        return false;
-    }
+@Getter
+public class Perfumaria extends Produto {
+	
+	public Perfumaria(String nome, int estoque, double valor) {
+		super(nome, estoque, valor);
+	}
+	
+	@Override
+	public boolean venda(Venda venda) {
+		if(getEstoque() >= venda.getQuantidade() && venda.getCliente().getSaldoDevedor() < 300) {
+			return super.venda(venda);
+		}
+		return false;
+	}
+
 }

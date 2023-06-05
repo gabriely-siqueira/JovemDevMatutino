@@ -4,24 +4,24 @@ import lombok.Getter;
 
 @Getter
 public class Medicamento extends Produto {
-    private boolean retencaoReceita;
 
-    public Medicamento(String nome, Integer estoque, Double valor, boolean retencaoReceita) {
-        super(nome, estoque, valor);
-        this.retencaoReceita = retencaoReceita;
-    }
+	private boolean isReceita;
 
-    public boolean isRetencaoReceita() {
-        return retencaoReceita;
-    }
+	public Medicamento(String nome, int estoque, double valor, boolean isReceita) {
+		super(nome, estoque, valor);
+		this.isReceita = isReceita;
+	}
 
-    @Override
-    public boolean venda(Cliente cliente, Integer quantidade) {
-        if (estoque > 0 && !retencaoReceita) {
-            estoque = estoque - quantidade;
-            cliente.setSaldoDevedor(cliente.getSaldoDevedor() + valor * quantidade);
-            return true;
-        }
-        return false;
-    }
+	@Override
+	public boolean venda(Venda venda) {
+		if(isReceita && venda.getMedico()==null) {
+			return false;
+		}else {
+			if (getEstoque() >= venda.getQuantidade()) {
+				return super.venda(venda);
+			}
+			return false;
+		}
+	}
+
 }
