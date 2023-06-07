@@ -270,23 +270,23 @@ order by votos desc;
 
 
 -----QUESTÃO 21
-select cidade.nome, cidade.qt_eleitores,
-((sum(v.voto) + vi.brancos + vi.nulos)) as total_votos
+select
+sum(v.voto) + (vi.brancos + vi.nulos) as total_votos
 from voto v cross join voto_invalido vi
 inner join candidato on candidato.id = v.candidato
 inner join cargo on cargo.id = candidato.cargo and cargo.nome = 'Prefeito'
 inner join cidade on cidade.id = candidato.cidade and cidade.nome = 'TUBARÃO'
 where vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
-group by cidade.nome, cidade.qt_eleitores, vi.brancos, vi.nulos
+group by vi.brancos, vi.nulos
 order by total_votos desc;
 -----QUESTÃO 22
 select cidade.nome, cidade.qt_eleitores, 
 (cidade.qt_eleitores - (sum(v.voto) + vi.brancos + vi.nulos)) as faltantes
 from cidade
-left join candidato on cidade.id = candidato.cidade
-left join voto v on candidato.id = v.candidato
-left join voto_invalido vi on vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
-left join cargo ON candidato.cargo = cargo.id
+inner join candidato on cidade.id = candidato.cidade
+inner join voto v on candidato.id = v.candidato
+inner join voto_invalido vi on vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
+inner join cargo ON candidato.cargo = cargo.id
 where cidade.nome = 'TUBARÃO' and cargo.nome = 'Prefeito'
 group by cidade.nome, cidade.qt_eleitores, vi.brancos, vi.nulos
 order by faltantes desc;
@@ -294,10 +294,10 @@ order by faltantes desc;
 select cidade.nome, cidade.qt_eleitores,
 (cidade.qt_eleitores - (sum(v.voto) + vi.brancos + vi.nulos)) as faltantes
 from cidade
-left join candidato on cidade.id = candidato.cidade
-left join voto v on candidato.id = v.candidato
-left join voto_invalido vi on vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
-left join cargo on candidato.cargo = cargo.id
+inner join candidato on cidade.id = candidato.cidade
+inner join voto v on candidato.id = v.candidato
+inner join voto_invalido vi on vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
+inner join cargo on candidato.cargo = cargo.id
 where cargo.nome = 'Prefeito'
 GROUP BY cidade.nome, cidade.qt_eleitores,vi.brancos,vi.nulos
 ORDER BY faltantes desc;
