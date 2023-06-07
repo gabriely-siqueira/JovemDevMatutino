@@ -121,10 +121,12 @@ select count(*)qt_vereadores from cidade where qt_vereadores > 9;
 ------Questão 5
 
 select max (qt_vereadores) from cidade; 
-------Questão 7
+------Questão 6
 SELECT nome FROM cidade
 where qt_vereadores = (select max(qt_vereadores) from cidade);
 select c.nome, c.cargo from candidato c order by c.nome;
+------Questão 7
+select nome from candidato order by candidato.nome; 
 ------Questão 8
 select nome from candidato where cargo = 2 
 and nome like '%MARIA%' order by nome;
@@ -267,6 +269,58 @@ group by p.sigla
 order by votos desc;
 
 
+-----QUESTÃO 21
+select cidade.nome, cidade.qt_eleitores,
+((sum(v.voto) + vi.brancos + vi.nulos)) as total_votos
+from voto v cross join voto_invalido vi
+inner join candidato on candidato.id = v.candidato
+inner join cargo on cargo.id = candidato.cargo and cargo.nome = 'Prefeito'
+inner join cidade on cidade.id = candidato.cidade and cidade.nome = 'TUBARÃO'
+where vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
+group by cidade.nome, cidade.qt_eleitores, vi.brancos, vi.nulos
+order by total_votos desc;
+-----QUESTÃO 22
+select cidade.nome, cidade.qt_eleitores, 
+(cidade.qt_eleitores - (sum(v.voto) + vi.brancos + vi.nulos)) as faltantes
+from cidade
+left join candidato on cidade.id = candidato.cidade
+left join voto v on candidato.id = v.candidato
+left join voto_invalido vi on vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
+left join cargo ON candidato.cargo = cargo.id
+where cidade.nome = 'TUBARÃO' and cargo.nome = 'Prefeito'
+group by cidade.nome, cidade.qt_eleitores, vi.brancos, vi.nulos
+order by faltantes desc;
+-----QUESTÃO 23
+select cidade.nome, cidade.qt_eleitores,
+(cidade.qt_eleitores - (sum(v.voto) + vi.brancos + vi.nulos)) as faltantes
+from cidade
+left join candidato on cidade.id = candidato.cidade
+left join voto v on candidato.id = v.candidato
+left join voto_invalido vi on vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
+left join cargo on candidato.cargo = cargo.id
+where cargo.nome = 'Prefeito'
+GROUP BY cidade.nome, cidade.qt_eleitores,vi.brancos,vi.nulos
+ORDER BY faltantes desc;
+
+-----QUESTÃO 24
+select cidade.nome, cidade.qt_eleitores, 
+(((cidade.qt_eleitores - (SUM(v.voto) + vi.brancos + vi.nulos)) * 100) / cidade.qt_eleitores) AS porcentagem
+from cidade
+left join candidato on cidade.id = candidato.cidade
+left joinvoto v on candidato.id = v.candidato
+left join voto_invalido vi on vi.cargo = candidato.cargo and vi.cidade = candidato.cidade
+left join cargo on candidato.cargo = cargo.id
+where cargo.nome = 'Prefeito'
+GROUP BY cidade.nome, cidade.qt_eleitores,vi.brancos , vi.nulos
+ORDER BY porcentagem desc;
+
+-----QUESTÃO 25
+select distinct on (cidade.id) cidade.id, cidade.nome, candidato.nome, voto.voto
+from voto 
+inner join candidato on voto.candidato = candidato.id 
+inner join cidade on candidato.cidade = cidade.id
+inner join cargo on cargo.id = candidato.cargo and cargo.nome = 'Prefeito'   
+order by cidade.id, voto.voto desc;
 
 
 
